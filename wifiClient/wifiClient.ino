@@ -1,22 +1,3 @@
-/*
-  Repeating Wifi Web Client
-
- This sketch connects to a a web server and makes a request
- using an Arduino Wifi shield.
-
- Circuit:
- * WiFi shield attached to pins SPI pins and pin 7
-
- created 23 April 2012
- modified 31 May 2012
- by Tom Igoe
- modified 13 Jan 2014
- by Federico Vanzati
-
- http://www.arduino.cc/en/Tutorial/WifiWebClientRepeating
- This code is in the public domain.
- */
-
 #include <SPI.h>
 #include <WiFi.h>
 
@@ -29,7 +10,9 @@ WiFiClient client;
 
 // Store the strings
 String currentLine;
-String currentStatus ="";
+String currentStatus = "";
+boolean statusNumbers = false;
+int outStatus = 0;
 
 // server address:
 char server[] = "skunkworks.at.utep.edu";
@@ -46,7 +29,7 @@ void setup() {
   }
 
   // LED or Servo Setting
-  pinMode(13, OUTPUT);
+  pinMode(9, OUTPUT);
 
   // check for the presence of the shield:
   if (WiFi.status() == WL_NO_SHIELD) {
@@ -75,39 +58,31 @@ void setup() {
 }
 
 void loop() {
-  // if there's incoming data from the net connection.
-  // send it out the serial port.  This is for debugging
-  // purposes only:
   while (client.available()) {
-    char c = client.read();
+    char inChar = client.read();
     // Convert into a string
-    currentLine += c;
+    currentLine += inChar;
 
-    if (c == '\n') {
+    if (inChar == '\n') {
       currentLine = "";
     }
 
+    //Serial.println(currentLine.endsWith("<status>"));
     if (currentLine.endsWith("<status>")) {
       statusNumbers = true;
     } else if (statusNumbers) {
       if (!currentLine.endsWith("</status>")) {
-        currentStatus += c;
+        currentStatus += inChar;
       }
-      Serial.println(currentStatus);
+      else {
+        statusNumbers = false;
+        String justStatus = currentStatus.substring(0, currentStatus.length()-8);
+        outStatus = justStatus.toInt();
+        //Serial.println(justStatus);
+      }
     }
-
-//    if(currentLine.indexOf('true') > 0)
-//    {
-//      digitalWrite(13, HIGH);    // set pin 4 high
-//    }
-//    if(currentLine.indexOf('false') > 0)//checks for off
-//    {
-//      digitalWrite(13, LOW);    // set pin 4 low
-//    }
-
-    currentLine = "";
-
   }
+  currentStatus = "";
 
   // if ten seconds have passed since your last connection,
   // then connect again and send data:
@@ -115,7 +90,16 @@ void loop() {
     httpRequest();
   }
 
+  //Actions to turn LED
+  if (outStatus == 1) {
+    digitalWrite(9, HIGH);
+  }
+  else if (outStatus == 0) {
+    digitalWrite(9, LOW);
+  }
 }
+
+
 
 // this method makes a HTTP connection to the server:
 void httpRequest() {
