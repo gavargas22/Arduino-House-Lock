@@ -1,0 +1,13 @@
+%section.jumbotron.text-xs-center.action-panel
+	.container
+		- flash.each do |key, value|
+			%div{:class => "alert alert-#{key}"}= value
+
+		%h1.jumbotron-heading AT Skunkworks Door
+		%p.lead.text-muted This app opens doors to labs managed by Academic Technologies.
+		%p
+			- if logged_in?
+				= link_to "Open Door", open_door_path, :class => "btn btn-success"
+				= link_to "Close Door", close_door_path, :class => "btn btn-danger"
+			- else
+				= link_to "Login", login_path, :class => "btn btn-default"
