@@ -24,7 +24,13 @@ https://flowingdata.com/2014/12/11/how-to-download-and-use-online-data-with-ardu
 
 ## Arduino Code
 
-Switch to branch `arduino` to see the Arduino sketch that is uploaded, change the values of your SSID to use.
+Switch to branch `arduino-code` to see the Arduino sketch that is uploaded, change the values of your SSID to use.
+
+### Logic
+
+The app uses a status page located at `/doors/{door_id}/status`. Then a WifiClient on the Arduino connects to a Wi-Fi Network, navigates to the page and does a GET request. The results are then parsed and the tag `<status></status>` is searched for. A boolean value is given to state the current status of the lock. 
+
+The WifiClient on the Arduino repeats the GET request every given interval.
 
 ## To Do
 
