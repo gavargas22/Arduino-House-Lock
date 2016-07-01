@@ -1,8 +1,8 @@
 #include <SPI.h>
 #include <WiFi.h>
 
-char ssid[] = "Feiji";      //  your network SSID (name)
-char pass[] = "36288000";   // your network password
+char ssid[] = "yourSSID";      //  your network SSID (name)
+char pass[] = "yourSSIDPassword";   // your network password
 int keyIndex = 0;            // your network key Index number (needed only for WEP)
 int status = WL_IDLE_STATUS;
 // Initialize the Wifi client library
