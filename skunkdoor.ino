@@ -15,7 +15,7 @@ boolean statusNumbers = false;
 int outStatus = 0;
 
 // server address:
-char server[] = "skunkworks.at.utep.edu";
+char server[] = "urlWhereYouAreRunningApp";
 //IPAddress server(64,131,82,241);
 
 unsigned long lastConnectionTime = 0;            // last time you connected to the server, in milliseconds
@@ -110,8 +110,9 @@ void httpRequest() {
   // if there's a successful connection:
   if (client.connect(server, 80)) {
     // send the HTTP PUT request:
-    client.println("GET /skunk/doors/1/status.html HTTP/1.1");
-    client.println("Host: skunkworks.at.utep.edu");
+    // Full URL for accesing status message.
+    client.println("GET /doors/1/status.html HTTP/1.1");
+    client.println("Host: ");
     client.println("User-Agent: ArduinoWiFi/1.1");
     client.println("Connection: close");
     client.println();
