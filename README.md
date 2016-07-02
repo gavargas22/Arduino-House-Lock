@@ -12,9 +12,6 @@ Navigate to `/` to access the user list
 `/doors` to access connected door lists.
 
 
-Based on:
-https://flowingdata.com/2014/12/11/how-to-download-and-use-online-data-with-arduino/
-
 ## Instructions
 
 1. When deploying this app, sign in with your UTEP Miners account.
@@ -35,3 +32,6 @@ The WifiClient on the Arduino repeats the GET request every given interval.
 ## To Do
 
 - [ ] Make system accessible without a miners account, another type of authentication, social media accounts?
+
+Based on:
+https://flowingdata.com/2014/12/11/how-to-download-and-use-online-data-with-arduino/
